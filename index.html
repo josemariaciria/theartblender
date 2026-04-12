@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheArtBlender – We blend art, people and business</title>
+    <meta name="description" content="We blend art, people and business into a cohesive vision that sparks companies beyond the imaginable.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'CANDIDE';
+            src: url('https://theartblender.com/wp-content/uploads/2025/04/candide-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'CANDIDE';
+            src: url('https://theartblender.com/wp-content/uploads/2025/04/candide-condensed-light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #FFD400;
+            --dark: #141413;
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray: #888888;
+            --gray-light: #cccccc;
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            font-family: 'CANDIDE', serif;
+            background: #000000;
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: opacity 1s ease, transform 1s ease; }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: opacity 1s ease, transform 1s ease; }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: url('images/fondo.png') 38% center / cover no-repeat;
+        }
+        .hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.25); z-index: 1; }
+
+        .hero-logo {
+            position: relative;
+            z-index: 2;
+            max-width: 640px;
+            width: 68vw;
+            margin: 7vh auto 0;
+            opacity: 0;
+            animation: fadeInScale 1.4s ease forwards;
+        }
+        .hero-logo img { width: 100%; height: auto; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.88); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-phrases { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+
+        .phrase {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(2rem, 5.5vw, 5rem);
+            font-weight: 400;
+            color: var(--white);
+            line-height: 1.08;
+            letter-spacing: -0.01em;
+            position: absolute;
+            opacity: 0;
+        }
+        .phrase-left {
+            text-align: left;
+            left: 5vw;
+            top: 52%;
+            animation: slideFromLeft 1.2s ease 0.7s forwards;
+        }
+        .phrase-right {
+            text-align: right;
+            right: 5vw;
+            top: 58%;
+            animation: slideFromRight 1.2s ease 1.1s forwards;
+        }
+        @keyframes slideFromLeft {
+            from { opacity: 0; transform: translateX(-120px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideFromRight {
+            from { opacity: 0; transform: translateX(120px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .phrase .letter { display: inline-block; }
+
+        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 3; animation: bounce 2.5s ease infinite; opacity: 0.6; }
+        .scroll-indicator svg { width: 30px; height: 30px; stroke: var(--gold); }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(12px); }
+        }
+
+        .slogan-section { min-height: 30vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; background: var(--black); }
+        .slogan-text { font-family: 'CANDIDE', serif; font-size: clamp(1.5rem, 2.8vw, 2.6rem); font-weight: 300; text-align: center; max-width: 1100px; line-height: 1.8; color: var(--white); letter-spacing: 0.01em; word-break: normal; }
+        .slogan-text .s-letter { display: inline-block; transition: transform 0.4s ease, opacity 0.4s ease; }
+
+        .team-section { padding: 4rem 2rem; background: #000000; border-top: 1px solid rgba(255,255,255,0.15); position: relative; }
+        #team-connector { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 0; }
+        .team-title { font-family: 'CANDIDE', serif; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; text-align: center; color: var(--white); letter-spacing: 0.15em; margin-bottom: 3rem; }
+        .team-grid { display: flex; justify-content: center; gap: 8rem; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; }
+        .team-member { flex: 1 1 420px; max-width: 500px; text-align: center; }
+        .team-photo { width: 320px; height: 320px; border-radius: 50%; margin: 0 auto 0.8rem; overflow: hidden; border: none; box-shadow: none; transition: transform 0.5s ease; cursor: pointer; }
+        .team-photo:hover { transform: scale(1.04); }
+        .team-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .team-name { font-family: 'CANDIDE', serif; font-size: 3rem; font-weight: 700; color: #ffffff; margin-bottom: 0.2rem; letter-spacing: 0.15em; }
+        .team-role-wrap { position: relative; min-height: 5rem; margin-bottom: 0.6rem; }
+        .team-role { font-family: 'CANDIDE', serif; font-size: 1.5rem; font-weight: 400; color: #ffffff; letter-spacing: 0.12em; text-transform: uppercase; position: absolute; width: 100%; transition: opacity 0.4s ease; }
+        .team-desc { font-family: 'CANDIDE', serif; font-size: 1.1rem; font-weight: 400; color: #ffffff; line-height: 1.7; position: absolute; width: 100%; opacity: 0; transition: opacity 0.4s ease; }
+        .team-role-wrap.flipped .team-role { opacity: 0; pointer-events: none; }
+        .team-role-wrap.flipped .team-desc { opacity: 1; }
+
+        .artist-section { min-height: 30vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8rem 2rem 5rem; background: var(--gold); color: var(--dark); clip-path: polygon(50% 0%, 100% 8%, 100% 100%, 0% 100%, 0% 8%); margin-top: -2px; }
+        .artist-word { font-family: Georgia, serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; color: var(--dark); margin-bottom: 0rem; }
+        .artist-phonetic { font-family: Georgia, serif; font-size: clamp(1rem, 2vw, 1.4rem); font-style: italic; color: rgba(20,20,19,0.7); margin-bottom: 1.5rem; }
+        .skill-display { min-height: 80px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .skill-current { font-family: 'CANDIDE', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; color: var(--dark); opacity: 0; transition: opacity 0.6s ease; letter-spacing: 0.02em; }
+        .skill-current.show { opacity: 1; }
+
+        .work-section { background: #000000; padding: 6rem 0; }
+        .work-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 8vw; gap: 4rem; }
+        .work-lines-container { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; flex: 1; }
+        .work-btn-side { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; opacity: 0; transform: scale(0.8); transition: opacity 0.8s ease 1s, transform 0.8s ease 1s; }
+        .work-btn-side.visible { opacity: 1; transform: scale(1); }
+        .work-btn-side .contact-form-wrap { max-width: 360px; width: 100%; }
+        .work-line { font-family: 'CANDIDE', serif; font-size: clamp(1.1rem, 2.2vw, 2rem); font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 0.3em; opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .work-line.last { font-weight: 700; color: var(--gold); margin-top: 0.3em; }
+        .work-line.visible { opacity: 1; transform: translateY(0); }
+        .work-text { max-width: 700px; text-align: center; }
+        .work-text p { font-family: 'CANDIDE', serif; font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 300; line-height: 2; color: var(--gray-light); }
+        .work-text .transcend { display: block; font-family: 'Roboto', sans-serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; color: var(--white); margin-top: 2.5rem; letter-spacing: -0.01em; }
+
+        .contact-section { min-height: 30vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2rem 2rem; background: #000000; }
+        .contact-question { font-family: 'CANDIDE', serif; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 300; color: var(--gray); text-align: center; margin-bottom: 2.5rem; letter-spacing: 0.05em; }
+        .contact-btn-circle { width: 320px; height: 320px; border-radius: 50%; background: var(--gold); border: none; cursor: pointer; font-family: 'CANDIDE', serif; font-size: 2rem; font-weight: 700; color: var(--dark); display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .contact-btn-circle:hover { transform: scale(1.07); box-shadow: 0 0 60px rgba(250,211,27,0.35); }
+        .contact-form-wrap { max-height: 0; overflow: hidden; transition: max-height 0.7s ease, opacity 0.5s ease; opacity: 0; width: 100%; max-width: 560px; }
+        .contact-form-wrap.open { max-height: 600px; opacity: 1; }
+        .contact-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+        .contact-form input, .contact-form textarea { font-family: 'CANDIDE', serif; font-size: 1rem; font-weight: 300; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.25); color: var(--white); padding: 0.8rem 0; outline: none; transition: border-color 0.3s; width: 100%; }
+        .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.35); }
+        .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: var(--gold); }
+        .contact-form textarea { resize: none; height: 100px; }
+        .contact-form-submit { margin-top: 1rem; background: var(--gold); color: var(--dark); font-family: 'CANDIDE', serif; font-size: 1.1rem; font-weight: 700; border: none; padding: 1rem 3rem; cursor: pointer; letter-spacing: 0.08em; transition: transform 0.3s, box-shadow 0.3s; align-self: center; }
+        .contact-form-submit:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(250,211,27,0.3); }
+        .footer-line { margin-top: 4rem; font-family: 'CANDIDE', serif; font-size: 0.75rem; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.1em; text-align: center; }
+        .site-footer { background: #000000; padding: 4rem 6vw 2rem; border-top: 1px solid rgba(255,255,255,0.08); }
+        .site-footer-main { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+        .site-footer-logo { max-width: 280px; }
+        .site-footer-logo img { width: 100%; height: auto; }
+        .site-footer-img { display: flex; flex-direction: column; align-items: center; }
+        .site-footer-img img { width: 400px; height: auto; }
+        .site-footer-email { font-family: 'CANDIDE', serif; font-size: 1.4rem; font-weight: 300; color: var(--gold); text-decoration: none; transition: opacity 0.3s; }
+        .site-footer-email:hover { opacity: 0.7; }
+        .site-footer-copy { text-align: center; margin-top: 3rem; font-family: 'CANDIDE', serif; font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.9); letter-spacing: 0.1em; }
+
+        .nav-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .nav-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--gold); background: transparent; cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .nav-dot.active { background: var(--gold); transform: scale(1.4); }
+        .nav-dot:hover { background: rgba(250,211,27,0.4); }
+
+        @media (hover: hover) {
+            .team-member:hover .team-role { opacity: 0; pointer-events: none; }
+            .team-member:hover .team-desc { opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            /* Hero */
+            .hero-logo { width: 80vw; margin-top: 12vh; }
+            .hero { background-position: 45.5% center; }
+            .phrase-left { top: 42%; }
+
+            /* Equipo */
+            .team-grid { gap: 3rem; }
+            .team-member { flex: 1 1 100%; }
+            .team-photo { width: 220px; height: 220px; }
+            #team-connector { display: none; }
+
+            /* Work section */
+            .work-inner { flex-direction: column; align-items: center; padding: 0 6vw; gap: 3rem; }
+            .work-lines-container { align-items: center; text-align: center; width: 100%; }
+            .work-line { font-size: clamp(1.5rem, 5.5vw, 2.2rem); line-height: 1.5; margin-bottom: 0.6em; }
+            .work-btn-side { width: 100%; align-items: center; }
+
+            /* Footer: logo → email → imagen → copyright */
+            .site-footer { padding: 3rem 2rem 2rem; }
+            .site-footer-main { flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
+            .site-footer-logo { max-width: 200px; order: 1; }
+            .site-footer-email { order: 2; }
+            .site-footer-img { order: 3; }
+            .site-footer-img img { width: 280px; }
+            .site-footer-copy { margin-top: 1rem; }
+
+            .slogan-text { font-size: clamp(1.5rem, 5.5vw, 2.6rem); }
+            .nav-dots { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-dots" aria-label="Navegación">
+        <div class="nav-dot active" data-section="hero"></div>
+        <div class="nav-dot" data-section="slogan"></div>
+        <div class="nav-dot" data-section="team"></div>
+        <div class="nav-dot" data-section="artist"></div>
+        <div class="nav-dot" data-section="work"></div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-logo">
+            <img src="images/logotab.png"" alt="The Art Blender">
+        </div>
+        <div class="hero-phrases">
+            <div class="phrase phrase-left">EVERYONE<br>IS AN<br>ARTIST</div>
+            <div class="phrase phrase-right">THINK.<br>ACT.<br>TRANSCEND.</div>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </div>
+    </section>
+
+    <section class="slogan-section" id="slogan">
+        <p class="slogan-text" id="sloganText">We blend art, people and business into a cohesive vision that sparks companies beyond the imaginable.</p>
+    </section>
+
+    <section class="team-section" id="team">
+        <h2 class="team-title reveal">¿quiénes somos?</h2>
+        <svg id="team-connector" aria-hidden="true"></svg>
+        <div class="team-grid">
+            <div class="team-member reveal-left">
+                <div class="team-photo">
+                    <img src="images/naza.png" alt="Naza">
+                </div>
+                <div class="team-name">NAZA</div>
+                <div class="team-role-wrap">
+                    <div class="team-role">People Catalyst</div>
+                    <p class="team-desc">Experta en hacer que las personas encuentren y<br>gestionen por sí mismas el cambio que necesitan.</p>
+                </div>
+            </div>
+            <div class="team-member reveal-right">
+                <div class="team-photo">
+                    <img src="images/ciria.png" alt="Ciria">
+                </div>
+                <div class="team-name">CIRIA</div>
+                <div class="team-role-wrap">
+                    <div class="team-role">Art Disruptor</div>
+                    <p class="team-desc">Creador de mundos donde las ideas se<br>convierten en estrategia que trasciende.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="artist-section" id="artist">
+        <div class="artist-word reveal">artista</div>
+        <div class="artist-phonetic">/ar'tist/ sustantivo</div>
+        <div class="skill-display">
+            <span class="skill-current" id="skillText"></span>
+        </div>
+    </section>
+
+    <div style="background: var(--gold); line-height: 0; margin-bottom: -2px; margin-top: -2px;">
+        <img src="images/gotas.jpg" style="width: 100%; display: block;">
+    </div>
+
+    <section class="work-section" id="work">
+        <div class="work-inner">
+            <div class="work-lines-container">
+                <div class="work-line">Complejidad. Incertidumbre. Automatización. Falta de sentido.</div>
+                <div class="work-line" style="margin-top:0.8em">Los cuatro retos de tu organización tienen una sola respuesta.</div>
+                <div class="work-line" style="margin-top:0.8em">Tiene 40.000 años y no la estás usando.</div>
+                <div class="work-line last" style="margin-top:0.8em">TheArtBlender no instala, despierta.</div>
+            </div>
+            <div class="work-btn-side" id="workBtn">
+                <button class="contact-btn-circle" id="contactBtn">¿Hablamos?
+                    <img src="https://unpkg.com/lucide-static@latest/icons/pointer.svg" style="width:28px; height:28px; margin-top:0.7rem; filter: brightness(0);">
+                </button>
+                <div class="contact-form-wrap" id="contactForm">
+                    <form class="contact-form" action="https://formspree.io/f/xeevjkwk" method="POST">
+                        <input type="text" name="nombre" placeholder="Nombre">
+                        <input type="email" name="email" placeholder="Email">
+                        <textarea name="mensaje" placeholder="Cuéntanos"></textarea>
+                        <button type="submit" class="contact-form-submit">¡VAMOS!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-logo">
+                <img src="images/logotab.png" alt="TheArtBlender">
+            </div>
+            <div class="site-footer-img">
+                <img src="images/gotas2.jpg" alt="">
+                <div class="site-footer-copy">All rights reserved &copy; 2026 TheArtBlender</div>
+            </div>
+            <a href="mailto:hola@theartblender.com" class="site-footer-email">hola@theartblender.com</a>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        'use strict';
+
+        /* SCROLL REVEAL */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObserver.observe(el));
+
+        /* SLOGAN: efecto spray al hacer scroll */
+        const sloganEl = document.getElementById('sloganText');
+        const sloganSection = document.getElementById('slogan');
+
+        (function wrapSlogan() {
+            const parts = sloganEl.innerHTML.split(/<br\s*\/?>/i);
+            sloganEl.innerHTML = '';
+            parts.forEach((part, pi) => {
+                part.split(' ').forEach((word, wi) => {
+    if (wi > 0) sloganEl.appendChild(document.createTextNode(' '));
+    const wordSpan = document.createElement('span');
+    wordSpan.style.cssText = 'display:inline-block;white-space:nowrap';
+    word.split('').forEach(ch => {
+        const span = document.createElement('span');
+        span.className = 's-letter';
+        span.textContent = ch;
+        wordSpan.appendChild(span);
+    });
+    sloganEl.appendChild(wordSpan);
+});
+                if (pi < parts.length - 1) sloganEl.appendChild(document.createElement('br'));
+            });
+        })();
+
+        const sloganLetters = sloganEl.querySelectorAll('.s-letter');
+
+        window.addEventListener('scroll', () => {
+            if (!sloganSection) return;
+            const rect = sloganSection.getBoundingClientRect();
+            const h = sloganSection.offsetHeight;
+            const center = rect.top + h / 2;
+            const distFromCenter = Math.abs(center - window.innerHeight / 2);
+            const maxDist = window.innerHeight * 0.25;
+            const focus = Math.min(1, Math.max(0, 1.8 - distFromCenter / maxDist));
+            sloganLetters.forEach(span => {
+                const tx = parseFloat(span.dataset.tx) * (1 - focus);
+                const ty = parseFloat(span.dataset.ty) * (1 - focus);
+                const rot = parseFloat(span.dataset.rot) * (1 - focus);
+                span.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+                span.style.opacity = 0.1 + focus * 0.9;
+            });
+        });
+
+        /* CONNECTOR LINES between photos and artist vertex */
+        function drawConnector() {
+            const svg = document.getElementById('team-connector');
+            if (!svg) return;
+            svg.innerHTML = '';
+            const photos = document.querySelectorAll('.team-photo');
+            const artistSection = document.getElementById('artist');
+            if (photos.length < 2 || !artistSection) return;
+            const teamSection = document.getElementById('team');
+            const teamRect = teamSection.getBoundingClientRect();
+            const r1 = photos[0].getBoundingClientRect();
+            const r2 = photos[1].getBoundingClientRect();
+            const aRect = artistSection.getBoundingClientRect();
+            const x1 = r1.left + r1.width / 2 - teamRect.left;
+            const y1 = r1.top + r1.height / 2 - teamRect.top;
+            const x2 = r2.left + r2.width / 2 - teamRect.left;
+            const y2 = r2.top + r2.height / 2 - teamRect.top;
+            const vx = aRect.left + aRect.width / 2 - teamRect.left;
+            const vy = aRect.top - teamRect.top;
+            const isStacked = Math.abs(x1 - x2) < 50;
+            if (isStacked) return; // hide on narrow screens
+            const ns = 'http://www.w3.org/2000/svg';
+            const mx = (x1 + x2) / 2;
+            const my = (y1 + y2) / 2;
+            const pathD = `M${x1},${y1} L${mx},${my} L${x2},${y2} M${mx},${my} L${vx},${vy}`;
+            const circle = document.createElementNS(ns, 'circle');
+            circle.setAttribute('cx', mx); circle.setAttribute('cy', my);
+            circle.setAttribute('r', 10); circle.setAttribute('fill', '#000000');
+            circle.setAttribute('stroke', 'var(--gold)'); circle.setAttribute('stroke-width', '1');
+            const path = document.createElementNS(ns, 'path');
+            path.setAttribute('d', pathD);
+            path.setAttribute('stroke', 'var(--gold)');
+            path.setAttribute('stroke-width', '1');
+            path.setAttribute('fill', 'none');
+            svg.appendChild(path);
+            svg.appendChild(circle);
+        }
+        window.addEventListener('load', drawConnector);
+        window.addEventListener('resize', drawConnector);
+        setTimeout(drawConnector, 600);
+
+        /* NAV DOTS */
+        const dots = document.querySelectorAll('.nav-dot');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    dots.forEach(d => d.classList.remove('active'));
+                    const dot = document.querySelector('.nav-dot[data-section="' + e.target.id + '"]');
+                    if (dot) dot.classList.add('active');
+                }
+            });
+        }, { threshold: 0.35 });
+        document.querySelectorAll('section').forEach(s => sectionObserver.observe(s));
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const t = document.getElementById(dot.dataset.section);
+                if (t) t.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        /* HERO: EFECTO VIENTO AL HACER SCROLL */
+        const hero        = document.getElementById('hero');
+        const phraseLeft  = hero.querySelector('.phrase-left');
+        const phraseRight = hero.querySelector('.phrase-right');
+
+        function wrapLetters(el) {
+            const parts = el.innerHTML.split(/<br\s*\/?>/gi);
+            el.innerHTML = '';
+            parts.forEach((part, i) => {
+                part.split('').forEach(ch => {
+                    const span = document.createElement('span');
+                    span.className = 'letter';
+                    span.textContent = ch === ' ' ? '\u00A0' : ch;
+                    el.appendChild(span);
+                });
+                if (i < parts.length - 1) el.appendChild(document.createElement('br'));
+            });
+        }
+
+        wrapLetters(phraseLeft);
+        wrapLetters(phraseRight);
+
+        function scatterPhrase(el, dirX) {
+            el.querySelectorAll('.letter').forEach(letter => {
+                const tx  = dirX * (60 + Math.random() * 320);
+                const ty  = (Math.random() - 0.5) * 340;
+                const rot = (Math.random() - 0.5) * 140;
+                const sc  = 0.1 + Math.random() * 0.4;
+                const dur = 0.35 + Math.random() * 0.45;
+                const del = Math.random() * 0.3;
+                letter.style.transition = `transform ${dur}s cubic-bezier(0.2,0,0.8,1) ${del}s, opacity ${dur * 0.8}s ease ${del}s`;
+                letter.style.transform  = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`;
+                letter.style.opacity    = '0';
+            });
+        }
+
+        function resetPhrase(el) {
+            el.querySelectorAll('.letter').forEach(letter => {
+                letter.style.transition = 'none';
+                letter.style.transform  = '';
+                letter.style.opacity    = '';
+            });
+        }
+
+        let exitTriggered = false;
+
+        window.addEventListener('scroll', () => {
+            const heroBottom  = hero.getBoundingClientRect().bottom;
+            const triggerExit = window.innerHeight * 0.85;
+
+            if (heroBottom < triggerExit && !exitTriggered) {
+                exitTriggered = true;
+                scatterPhrase(phraseLeft, -1);
+                setTimeout(() => scatterPhrase(phraseRight, 1), 100);
+            }
+
+            if (heroBottom > window.innerHeight * 0.95 && exitTriggered) {
+                exitTriggered = false;
+                resetPhrase(phraseLeft);
+                resetPhrase(phraseRight);
+                [phraseLeft, phraseRight].forEach(p => {
+                    p.style.animation = 'none';
+                    p.offsetHeight;
+                    p.style.opacity = '0';
+                });
+                setTimeout(() => {
+                    phraseLeft.style.animation  = 'slideFromLeft 1.2s ease forwards';
+                    phraseRight.style.animation = 'slideFromRight 1.2s ease 0.3s forwards';
+                }, 30);
+            }
+        });
+
+        /* WORK LINES: aparecen una a una al entrar en pantalla */
+        const workLineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.work-line').forEach((line, i) => {
+            line.style.transitionDelay = (i * 0.2) + 's';
+            workLineObserver.observe(line);
+        });
+        // Mostrar botón tras el último work-line
+        const workBtnEl = document.getElementById('workBtn');
+        const lastLine = document.querySelector('.work-line.last');
+        if (lastLine && workBtnEl) {
+            const btnObserver = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) workBtnEl.classList.add('visible'); });
+            }, { threshold: 0.5 });
+            btnObserver.observe(lastLine);
+        }
+        /* FIX TOGGLE EQUIPO EN MÓVIL */
+        document.querySelectorAll('.team-photo').forEach(photo => {
+            photo.addEventListener('click', function() {
+                const wrap = this.closest('.team-member').querySelector('.team-role-wrap');
+                wrap.classList.toggle('flipped');
+            });
+        });
+
+        /* CONTACTO: desplegar formulario */
+document.getElementById('contactBtn').addEventListener('click', function() {
+    const form = document.getElementById('contactForm');
+    form.classList.toggle('open');
+    this.style.transform = form.classList.contains('open') ? 'scale(0.95)' : '';
+});
+
+document.querySelector('.contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+    }).then(r => {
+        if (r.ok) {
+            form.innerHTML = '<p style="color:var(--gold);font-family:CANDIDE,serif;font-size:1.2rem;text-align:center;padding:2rem 0">¡Mensaje enviado!<br>Nos ponemos en contacto contigo pronto.</p>';
+        }
+    });
+});
+
+        /* ARTIST SKILLS */
+        const skills = [
+            'armoniza el caos','pensamiento múltiple y complejo','motivación intrínseca',
+            'piensa transversalmente','piensa de manera no-lineal',
+            'desarrolla estrategias de riesgo controlado','entiende la crisis como renovación',
+            'se nutre de la transdisciplinariedad','da sentido','se siente conectado',
+            'alinea','crea communitas','duda','abraza lo irracional',
+            'tiene una metodología flexible','necesita trascender','autotransformación',
+            'capacidad de búsqueda','salta entre lo concreto y lo abstracto','es un entusiasta'
+        ];
+
+        const skillText = document.getElementById('skillText');
+        let currentSkillIndex = 0;
+        let skillsStarted = false;
+        let shuffled = [...skills];
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function showNextSkill() {
+            skillText.classList.remove('show');
+            setTimeout(() => {
+                skillText.textContent = shuffled[currentSkillIndex];
+                skillText.classList.add('show');
+                currentSkillIndex++;
+                if (currentSkillIndex >= shuffled.length) {
+                    currentSkillIndex = 0;
+                    shuffled = shuffleArray([...skills]);
+                }
+            }, 600);
+        }
+
+        const artistObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !skillsStarted) {
+                    skillsStarted = true;
+                    shuffled = shuffleArray([...skills]);
+                 
+                                                                                                         showNextSkill();
+                    setInterval(showNextSkill, 2200);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        artistObserver.observe(document.getElementById('artist'));
+
+    })();
+    </script>
+</body>
+</html>
