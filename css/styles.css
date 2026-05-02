@@ -661,6 +661,32 @@ body { font-family: 'CANDIDE', serif; background: #000; color: #fff; overflow-x:
     transition: opacity .3s ease, transform .2s ease;
 }
 .contact-form button:hover { opacity: .9; transform: translateY(-2px); }
+.contact-form button:disabled { opacity: .5; cursor: wait; transform: none; }
+
+/* Mensaje de éxito tras envío AJAX */
+.contact-success {
+    text-align: center;
+    padding: 2em 1em;
+    animation: fadeInUp .6s ease forwards;
+}
+.contact-success-title {
+    font-family: 'CANDIDE', serif;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: var(--gold);
+    line-height: 1.1;
+    margin-bottom: .4em;
+}
+.contact-success-msg {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: rgba(255,255,255,.75);
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ═══ FOOTER ═══ */
 .site-footer {

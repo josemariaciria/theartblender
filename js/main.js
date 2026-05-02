@@ -871,4 +871,46 @@
         });
     }
 
+    // Envío AJAX a Formspree (sin redirección)
+    var contactFormEl = document.getElementById('contactFormEl');
+    var contactSuccess = document.getElementById('contactSuccess');
+    var contactSubmitBtn = document.getElementById('contactSubmitBtn');
+    if (contactFormEl) {
+        contactFormEl.addEventListener('submit', function(ev) {
+            ev.preventDefault();
+            if (contactSubmitBtn) {
+                contactSubmitBtn.disabled = true;
+                contactSubmitBtn.textContent = 'ENVIANDO…';
+            }
+            var data = new FormData(contactFormEl);
+            fetch(contactFormEl.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(function(res) {
+                if (res.ok) {
+                    contactFormEl.hidden = true;
+                    contactSuccess.hidden = false;
+                } else {
+                    res.json().then(function(json) {
+                        var msg = (json && json.errors && json.errors.length)
+                            ? json.errors.map(function(e){return e.message;}).join(', ')
+                            : 'No se pudo enviar. Inténtalo más tarde.';
+                        if (contactSubmitBtn) {
+                            contactSubmitBtn.disabled = false;
+                            contactSubmitBtn.textContent = '¡VAMOS!';
+                        }
+                        alert(msg);
+                    });
+                }
+            }).catch(function() {
+                if (contactSubmitBtn) {
+                    contactSubmitBtn.disabled = false;
+                    contactSubmitBtn.textContent = '¡VAMOS!';
+                }
+                alert('Error de conexión. Inténtalo más tarde.');
+            });
+        });
+    }
+
     })();

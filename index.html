@@ -151,8 +151,8 @@
             </span>
         </button>
 
-        <div class="contact-form-wrap" id="contactForm">
-            <form class="contact-form" action="https://formspree.io/f/xeevjkwk" method="POST">
+       <div class="contact-form-wrap" id="contactForm">
+            <form class="contact-form" id="contactFormEl" action="https://formspree.io/f/xeevjkwk" method="POST">
                 <div class="field">
                     <input type="text" id="f-name" name="name" placeholder=" " required>
                     <label for="f-name">Nombre</label>
@@ -165,8 +165,12 @@
                     <textarea id="f-message" name="message" placeholder=" " required></textarea>
                     <label for="f-message">Cuéntanos</label>
                 </div>
-                <button type="submit">¡VAMOS!</button>
+                <button type="submit" id="contactSubmitBtn">¡VAMOS!</button>
             </form>
+            <div class="contact-success" id="contactSuccess" hidden>
+                <div class="contact-success-title">¡Gracias!</div>
+                <div class="contact-success-msg">Tu mensaje ha llegado. Te responderemos pronto.</div>
+            </div>
         </div>
     </div>
 </section>
