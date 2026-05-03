@@ -281,7 +281,7 @@ body { font-family: 'CANDIDE', serif; background: #000; color: #fff; overflow-x:
 }
 .person-desc {
     font-family: 'CANDIDE', serif;
-    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    font-size: clamp(1.1rem, 2vw, 1.9rem);
     font-weight: 300;
     color: #fff;
     line-height: 1.4;
@@ -295,9 +295,16 @@ body { font-family: 'CANDIDE', serif; background: #000; color: #fff; overflow-x:
     max-width: min(420px, 90vw);
     pointer-events: none;
 }
-.person:hover .person-name,
-.person:hover .person-role { opacity: 0; }
-.person:hover .person-desc { opacity: 1; }
+/* Desktop: hover */
+@media (hover: hover) {
+    .person:hover .person-name,
+    .person:hover .person-role { opacity: 0; }
+    .person:hover .person-desc { opacity: 1; }
+}
+/* Móvil/táctil: clase .swap controlada por JS */
+.person.swap .person-name,
+.person.swap .person-role { opacity: 0; }
+.person.swap .person-desc { opacity: 1; }
 
 /* ═══════════════════════════════════════════════════════
    TRANSICIÓN 3→4 — TRIANGLE EXPANSION
@@ -372,7 +379,7 @@ body { font-family: 'CANDIDE', serif; background: #000; color: #fff; overflow-x:
     font-family: 'CANDIDE', serif;
     font-size: clamp(1.3rem, 2.4vw, 1.9rem);
     font-weight: 300; color: var(--dark);
-    opacity: 0; transition: opacity .6s ease;
+    opacity: 0; transition: opacity .35s ease;
     letter-spacing: .02em;
     max-width: 32ch; text-wrap: pretty;
 }
@@ -752,7 +759,12 @@ body { font-family: 'CANDIDE', serif; background: #000; color: #fff; overflow-x:
     border-top: 1px solid rgba(255,255,255,.08);
     gap: 2rem; flex-wrap: wrap;
 }
-.site-footer-logo { max-width: 220px; opacity: .8; }
+.site-footer-logo {
+    max-width: 220px; opacity: .8;
+    display: block;
+    transition: opacity .3s ease;
+}
+.site-footer-logo:hover { opacity: 1; }
 .site-footer-logo img { width: 100%; height: auto; }
 .site-footer-copy {
     font-family: 'Roboto Mono', monospace;

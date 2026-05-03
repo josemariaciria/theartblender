@@ -384,6 +384,23 @@
     var centerMark = document.getElementById('centerMark');
     var personImgs = document.querySelectorAll('.person-img');
 
+    // Toggle descripción en táctil (móvil): tap alterna entre nombre/cargo y descripción.
+    // En desktop el hover de CSS sigue funcionando como siempre.
+    if (window.matchMedia('(hover: none)').matches) {
+        personImgs.forEach(function (img) {
+            var person = img.closest('.person');
+            if (!person) return;
+            img.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                // Si está abierto en otra persona, lo cerramos
+                document.querySelectorAll('.person.swap').forEach(function (other) {
+                    if (other !== person) other.classList.remove('swap');
+                });
+                person.classList.toggle('swap');
+            });
+        });
+    }
+
     function positionGoldLine() {
         if (personImgs.length < 2) return;
         var row = document.getElementById('photosRow');
@@ -630,7 +647,7 @@
             skillText.classList.add('show');
             skillIdx++;
             if (skillIdx >= shuffled.length) { skillIdx = 0; shuffled = shuffle([].concat(skills)); }
-        }, 400);
+        }, 450);
     }
 
     var artistObs = new IntersectionObserver(function (entries) {
